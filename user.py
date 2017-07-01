@@ -1,9 +1,3 @@
-"""
-Tutorial - Passing variables
-
-This tutorial shows you how to pass GET/POST variables to methods.
-"""
-
 import os.path
 
 import cherrypy
@@ -17,14 +11,14 @@ class WelcomePage:
     def index(self):
         # Ask for the user's name.
         return '''
-            <form action="greetUser" method="GET">
-            What is your name?
+            <form action="displayResult" method="GET">
+            What is your GitHub username?
             <input type="text" name="name" />
             <input type="submit" />
             </form>'''
 
     @cherrypy.expose
-    def greetUser(self, name=None):
+    def displayResult(self, name=None):
         # CherryPy passes all GET and POST variables as method parameters.
         # It doesn't make a difference where the variables come from, how
         # large their contents are, and so on.
@@ -37,15 +31,28 @@ class WelcomePage:
         response = urllib.urlopen(url)
         data = json.loads(response.read())
 
+        output = ""
+
         if data["name"]:
             # Greet the user!
-            return "Name: %s" % data["name"]
+            output += "Name: %s" % data["name"]
         else:
             if data["name"] is None:
                 # No name was specified
-                return 'Please enter your name <a href="./">here</a>.'
+                return 'Please enter your GitHub username <a href="./">here</a>.'
             else:
-                return 'No, really, enter your name <a href="./">here</a>.'
+                return 'Please enter your GitHub username <a href="./">here</a>.'
+
+        output += "<br>Organizations:"
+
+        organizations_url = url + "/orgs"
+        response = urllib.urlopen(organizations_url)
+        data = json.loads(response.read())
+
+        for x in data:
+            output += " %s" % x["login"]
+
+        return output
 
 if __name__ == '__main__':
     # CherryPy always starts with app.root when trying to map request URIs
