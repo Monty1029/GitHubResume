@@ -9,7 +9,7 @@ class WelcomePage:
 
     @cherrypy.expose
     def index(self):
-        # Ask for the user's name.
+        
         return '''
             <form action="displayResult" method="GET">
             What is your GitHub username?
@@ -42,6 +42,8 @@ class WelcomePage:
                 return 'Please enter your GitHub username <a href="./">here</a>.'
             else:
                 return 'Please enter your GitHub username <a href="./">here</a>.'
+
+        output += "<br>Number of Followers: %s" % data["followers"]
 
         output += "<br>Organizations:"
 
