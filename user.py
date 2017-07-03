@@ -42,6 +42,7 @@ class WelcomePage:
                 return 'Please enter your GitHub username <a href="./">here</a>.'
             else:
                 return 'Please enter your GitHub username <a href="./">here</a>.'
+
         if data["bio"] is not None:
             output += "<br>Bio: %s" % data["bio"]
         
