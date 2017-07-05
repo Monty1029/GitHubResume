@@ -1,41 +1,27 @@
-import os.path
-
-import cherrypy
-
 import urllib, json
 
 
-class WelcomePage:
+class User:
 
-    @cherrypy.expose
-    def index(self):
+    def __init__(self, name=None):
+        self.name = name
         
-        return '''
-            <form action="displayResult" method="GET">
-            What is your GitHub username?
-            <input type="text" name="name" />
-            <input type="submit" />
-            </form>'''
-
-    @cherrypy.expose
-    def displayResult(self, name=None):
-        # CherryPy passes all GET and POST variables as method parameters.
-        # It doesn't make a difference where the variables come from, how
-        # large their contents are, and so on.
-        #
-        # You can define default parameter values as usual. In this
-        # example, the "name" parameter defaults to None so we can check
-        # if a name was actually specified.
-
-        url = "https://api.github.com/users/" + name
+    def callAPI(self, url):
         response = urllib.urlopen(url)
         data = json.loads(response.read())
+        return data    
+
+    def getName(self, name=None):
 
         output = ""
+        url = "https://api.github.com/users/" + self.name
+
+        data = self.callAPI(url)
 
         if data["name"]:
             # Greet the user!
-            output += "Name: %s" % data["name"]
+            name = data["name"]
+            output += " %s" % name
         else:
             if data["name"] is None:
                 # No name was specified
@@ -43,25 +29,41 @@ class WelcomePage:
             else:
                 return 'Please enter your GitHub username <a href="./">here</a>.'
 
+        return "Name: " + output
+
+    def getBio(self, name=None):
+        output = ""
+        url = "https://api.github.com/users/" + self.name
+        data = self.callAPI(url)
         if data["bio"] is not None:
-            output += "<br>Bio: %s" % data["bio"]
-        
-        output += "<br>Number of Followers: %s" % data["followers"]
-        output += "<br>Number of repositories: %s" % data["public_repos"]
+            bio = data["bio"]
+            output += " %s" % bio
 
-        output += "<br>Organizations:"
+        return "Bio: " + output
 
-        organizations_url = url + "/orgs"
-        response = urllib.urlopen(organizations_url)
-        data = json.loads(response.read())
+    def getFollowers(self, name=None):
+        url = "https://api.github.com/users/" + self.name
+        data = self.callAPI(url)
+        return "Followers: " + str(data["followers"])
+
+    def getOrganizations(self, name=None):
+        url = "https://api.github.com/users/" + self.name + "/orgs"
+        data = self.callAPI(url)
+
+        output = ""
 
         for x in data:
             output += " %s" % x["login"]
 
-        return output
+        return "Organizations: " + output
 
-if __name__ == '__main__':
-    # CherryPy always starts with app.root when trying to map request URIs
-    # to objects, so we need to mount a request handler root. A request
-    # to '/' will be mapped to HelloWorld().index().
-    cherrypy.quickstart(WelcomePage())
+    def getPublicRepos(self, name=None):
+        output = ""
+
+        url = "https://api.github.com/users/" + self.name + "/repos"
+        data = self.callAPI(url)
+
+        for x in data:
+            output += " %s" % x["name"]
+
+        return "Repositories: " + output
