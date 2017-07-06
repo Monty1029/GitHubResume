@@ -19,12 +19,10 @@ class User:
         data = self.callAPI(url)
 
         if data["name"]:
-            # Greet the user!
             name = data["name"]
             output += " %s" % name
         else:
             if data["name"] is None:
-                # No name was specified
                 return 'Please enter your GitHub username <a href="./">here</a>.'
             else:
                 return 'Please enter your GitHub username <a href="./">here</a>.'
@@ -56,14 +54,3 @@ class User:
             output += " %s" % x["login"]
 
         return "Organizations: " + output
-
-    def getPublicRepos(self, name=None):
-        output = ""
-
-        url = "https://api.github.com/users/" + self.name + "/repos"
-        data = self.callAPI(url)
-
-        for x in data:
-            output += " %s" % x["name"]
-
-        return "Repositories: " + output

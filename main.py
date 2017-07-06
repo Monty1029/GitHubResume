@@ -2,6 +2,7 @@ import os.path
 import cherrypy
 import urllib, json
 from user import User
+from repo import Repo
 
 
 class WelcomePage:
@@ -27,7 +28,8 @@ class WelcomePage:
         # if a name was actually specified.
 
         user = User(name)
-        output = user.getName() + "<br>" + user.getBio() + "<br>" + str(user.getFollowers()) + "<br>" + user.getOrganizations() + "<br>" + user.getPublicRepos()
+        repo = Repo(name)
+        output = user.getName() + "<br>" + user.getBio() + "<br>" + str(user.getFollowers()) + "<br>" + user.getOrganizations() + "<br>" + repo.getRepoName() + "<br>" + repo.getCreationDate()
         return output
 
 if __name__ == '__main__':
