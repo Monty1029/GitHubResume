@@ -1,30 +1,34 @@
 import urllib, json
-
+from urllib2 import urlopen, Request
 
 class Repo:
 
-    response = ""
     data = []
+    repoName = ""
+    creationDate = ""
 
     def __init__(self, name=None):
         self.name = name
-        global response
         global data
-        url = "https://api.github.com/users/" + self.name + "/repos"
-        response = urllib.urlopen(url)
+        url = "https://api.github.com/users/" + name + "/repos"
+        token = "TOKEN"
+        request = Request(url)
+        request.add_header('Authorization', 'token %s' % token)
+        response = urlopen(request)
         data = json.loads(response.read())
 
     def getRepoName(self):
-        output = ""
-        for x in data:
-            output += "<br>%s" % x["name"]
-
-        return "Repositories: " + output
+        global repoName
+        return repoName
 
     def getCreationDate(self):
-        output = ""
+        global creationDate
+        return creationDate
 
-        for x in data:
-            output += "<br>%s" % x["created_at"]
+    def setRepoName(self, repoNumber=None):
+        global repoName
+        repoName = data[repoNumber]["name"]
 
-        return "Creation Date: " + output
+    def setCreationDate(self, repoNumber=None):
+        global creationDate
+        creationDate = data[repoNumber]["created_at"]

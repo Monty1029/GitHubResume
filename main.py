@@ -1,6 +1,8 @@
 import os.path
 import cherrypy
 import urllib, json
+from urllib2 import urlopen, Request
+from requests.auth import HTTPBasicAuth
 from user import User
 from repo import Repo
 
@@ -27,10 +29,40 @@ class WelcomePage:
         # example, the "name" parameter defaults to None so we can check
         # if a name was actually specified.
 
+        url = "https://api.github.com/users/" + name + "/repos"
+        token = "TOKEN"
+        request = Request(url)
+        request.add_header('Authorization', 'token %s' % token)
+        response = urlopen(request)
+        data = json.loads(response.read())
+
+        allRepos = []
+        top5Repos = []
+
         user = User(name)
-        repo = Repo(name)
-        output = user.getName() + "<br>" + user.getBio() + "<br>" + str(user.getFollowers()) + "<br>" + user.getOrganizations() + "<br>" + repo.getRepoName() + "<br>" + repo.getCreationDate()
+
+        repoIndex = 0
+        
+        for x in data:
+            repo = Repo(name)
+            repo.setRepoName(repoIndex)
+            repo.setCreationDate(repoIndex)
+            allRepos.append(repo)
+            repoIndex += 1
+
+        print allRepos[0].getRepoName
+        print allRepos[1].getRepoName
+
+        output = ""
+
+        for x in allRepos:
+            output += x.getRepoName()
+
         return output
+
+        # repo = Repo(name)
+        # output = user.getName() + "<br>" + user.getBio() + "<br>" + str(user.getFollowers()) + "<br>" + user.getOrganizations() + "<br>" + repo.getRepoName() + "<br>" + repo.getCreationDate()
+        # return output
 
 if __name__ == '__main__':
     # CherryPy always starts with app.root when trying to map request URIs
