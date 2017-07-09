@@ -7,9 +7,11 @@ class User:
         self.name = name
         
     def callAPI(self, url):
-        response = urllib.urlopen(url)
-        data = json.loads(response.read())
-        return data    
+        token = "TOKEN"
+        request = Request(url)
+        request.add_header('Authorization', 'token %s' % token)
+        response = urlopen(request)
+        data = json.loads(response.read())    
 
     def getName(self, name=None):
 

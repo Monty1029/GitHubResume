@@ -9,6 +9,8 @@ class Repo:
 
     def __init__(self, name=None):
         self.name = name
+        self.repoName = ""
+        self.creationDate = ""
         global data
         url = "https://api.github.com/users/" + name + "/repos"
         token = "TOKEN"
@@ -18,17 +20,13 @@ class Repo:
         data = json.loads(response.read())
 
     def getRepoName(self):
-        global repoName
-        return repoName
+        return self.repoName
 
     def getCreationDate(self):
-        global creationDate
-        return creationDate
+        return self.creationDate
 
     def setRepoName(self, repoNumber=None):
-        global repoName
-        repoName = data[repoNumber]["name"]
+        self.repoName = data[repoNumber]["name"]
 
     def setCreationDate(self, repoNumber=None):
-        global creationDate
-        creationDate = data[repoNumber]["created_at"]
+        self.creationDate = data[repoNumber]["created_at"]

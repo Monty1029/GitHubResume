@@ -50,9 +50,6 @@ class WelcomePage:
             allRepos.append(repo)
             repoIndex += 1
 
-        print allRepos[0].getRepoName
-        print allRepos[1].getRepoName
-
         output = ""
 
         for x in allRepos:
