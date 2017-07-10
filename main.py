@@ -1,6 +1,7 @@
 import os.path
 import cherrypy
 import urllib, json
+import operator
 from urllib2 import urlopen, Request
 from requests.auth import HTTPBasicAuth
 from user import User
@@ -37,23 +38,29 @@ class WelcomePage:
         data = json.loads(response.read())
 
         allRepos = []
-        top5Repos = []
-
         user = User(name)
-
         repoIndex = 0
+        output = ""
         
         for x in data:
             repo = Repo(name)
             repo.setRepoName(repoIndex)
             repo.setCreationDate(repoIndex)
+            repo.setStars(repoIndex)
             allRepos.append(repo)
             repoIndex += 1
 
-        output = ""
+        print len(allRepos)
 
-        for x in allRepos:
-            output += x.getRepoName()
+        if (len(allRepos) <= 5):
+            for x in allRepos:
+                output += x.getRepoName() + " "
+        else:
+            allRepos = sorted(allRepos)
+            allRepos = list(reversed(allRepos))
+            del allRepos[5:]
+            for x in allRepos:
+                output += x.getRepoName() + " "
 
         return output
 
