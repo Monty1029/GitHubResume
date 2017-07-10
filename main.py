@@ -4,8 +4,10 @@ import urllib, json
 import operator
 from urllib2 import urlopen, Request
 from requests.auth import HTTPBasicAuth
+
 from user import User
 from repo import Repo
+from documentCreator import DocumentCreator
 
 
 class WelcomePage:
@@ -45,6 +47,7 @@ class WelcomePage:
         for x in data:
             repo = Repo(name)
             repo.setRepoName(repoIndex)
+            repo.setLang(repoIndex)
             repo.setCreationDate(repoIndex)
             repo.setStars(repoIndex)
             allRepos.append(repo)
@@ -62,11 +65,10 @@ class WelcomePage:
             for x in allRepos:
                 output += x.getRepoName() + " "
 
-        return output
+        dc = DocumentCreator(name, user, allRepos)
+        dc.buildDoc()
 
-        # repo = Repo(name)
-        # output = user.getName() + "<br>" + user.getBio() + "<br>" + str(user.getFollowers()) + "<br>" + user.getOrganizations() + "<br>" + repo.getRepoName() + "<br>" + repo.getCreationDate()
-        # return output
+        return output
 
 if __name__ == '__main__':
     # CherryPy always starts with app.root when trying to map request URIs

@@ -12,6 +12,7 @@ class Repo:
         self.repoName = ""
         self.creationDate = ""
         self.stars = 0
+        self.lang = ""
         global data
         url = "https://api.github.com/users/" + name + "/repos"
         token = "TOKEN"
@@ -33,6 +34,12 @@ class Repo:
 
     def setRepoName(self, repoNumber=None):
         self.repoName = data[repoNumber]["name"]
+
+    def getLang(self):
+        return self.lang
+
+    def setLang(self, repoNumber=None):
+        self.lang = data[repoNumber]["language"]
 
     def getCreationDate(self):
         return self.creationDate

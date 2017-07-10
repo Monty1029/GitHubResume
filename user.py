@@ -1,5 +1,5 @@
 import urllib, json
-
+from urllib2 import urlopen, Request
 
 class User:
 
@@ -11,7 +11,8 @@ class User:
         request = Request(url)
         request.add_header('Authorization', 'token %s' % token)
         response = urlopen(request)
-        data = json.loads(response.read())    
+        data = json.loads(response.read())
+        return data    
 
     def getName(self, name=None):
 
@@ -19,17 +20,10 @@ class User:
         url = "https://api.github.com/users/" + self.name
 
         data = self.callAPI(url)
+        name = data["name"]
+        output += "%s" % name
 
-        if data["name"]:
-            name = data["name"]
-            output += " %s" % name
-        else:
-            if data["name"] is None:
-                return 'Please enter your GitHub username <a href="./">here</a>.'
-            else:
-                return 'Please enter your GitHub username <a href="./">here</a>.'
-
-        return "Name: " + output
+        return output
 
     def getBio(self, name=None):
         output = ""
@@ -37,14 +31,14 @@ class User:
         data = self.callAPI(url)
         if data["bio"] is not None:
             bio = data["bio"]
-            output += " %s" % bio
+            output += "%s" % bio
 
-        return "Bio: " + output
+        return output
 
     def getFollowers(self, name=None):
         url = "https://api.github.com/users/" + self.name
         data = self.callAPI(url)
-        return "Followers: " + str(data["followers"])
+        return str(data["followers"])
 
     def getOrganizations(self, name=None):
         url = "https://api.github.com/users/" + self.name + "/orgs"
@@ -53,6 +47,6 @@ class User:
         output = ""
 
         for x in data:
-            output += " %s" % x["login"]
+            output += "%s\n" % x["login"]
 
-        return "Organizations: " + output
+        return output
