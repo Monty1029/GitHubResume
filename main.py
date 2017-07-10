@@ -39,6 +39,9 @@ class WelcomePage:
         response = urlopen(request)
         data = json.loads(response.read())
 
+        if data[0]["name"] is None:
+            return 'Please enter your GitHub username <a href="./">here</a>.'
+
         allRepos = []
         user = User(name)
         repoIndex = 0
@@ -68,7 +71,7 @@ class WelcomePage:
         dc = DocumentCreator(name, user, allRepos)
         dc.buildDoc()
 
-        return output
+        return "Your GitHub Resume is complete!"
 
 if __name__ == '__main__':
     # CherryPy always starts with app.root when trying to map request URIs

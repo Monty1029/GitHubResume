@@ -46,6 +46,7 @@ class Repo:
 
     def setCreationDate(self, repoNumber=None):
         self.creationDate = data[repoNumber]["created_at"]
+        self.creationDate = self.creationDate[:10]
 
     def getStars(self):
         return self.stars
