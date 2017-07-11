@@ -56,17 +56,11 @@ class WelcomePage:
             allRepos.append(repo)
             repoIndex += 1
 
-        print len(allRepos)
+        allRepos = sorted(allRepos)
+        allRepos = list(reversed(allRepos))
 
-        if (len(allRepos) <= 5):
-            for x in allRepos:
-                output += x.getRepoName() + " "
-        else:
-            allRepos = sorted(allRepos)
-            allRepos = list(reversed(allRepos))
+        if (len(allRepos) > 5):
             del allRepos[5:]
-            for x in allRepos:
-                output += x.getRepoName() + " "
 
         dc = DocumentCreator(name, user, allRepos)
         dc.buildDoc()
