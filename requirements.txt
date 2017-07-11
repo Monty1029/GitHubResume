@@ -1,0 +1,4 @@
+CherryPy==10.2.2
+urllib2==1498656401.94
+requests==2.18.1
+python_docx==0.8.6
