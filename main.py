@@ -88,8 +88,6 @@ if __name__ == '__main__':
     # to '/' will be mapped to HelloWorld().index().
     import sys
     import os
-    cherrypy.config.update({
-                            'server.socket_host': '0.0.0.0',
-                            'server.socket_port': int(5000),
-                           })
+    cherrypy.config.update({'server.socket_host': '0.0.0.0',})
+    cherrypy.config.update({'server.socket_port': int(os.environ.get('PORT', '5000')),})
     cherrypy.quickstart(WelcomePage())
