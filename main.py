@@ -90,6 +90,6 @@ if __name__ == '__main__':
     import os
     cherrypy.config.update({
                             'server.socket_host': '0.0.0.0',
-                            'server.socket_port': int(8080),
+                            'server.socket_port': int(5000),
                            })
     cherrypy.quickstart(WelcomePage())
