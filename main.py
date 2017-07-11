@@ -1,5 +1,6 @@
 import os.path
 import cherrypy
+from cherrypy.lib import static
 import urllib, json
 import operator
 from urllib2 import urlopen, Request
@@ -9,6 +10,9 @@ from user import User
 from repo import Repo
 from documentCreator import DocumentCreator
 
+
+localDir = os.path.dirname(__file__)
+absDir = os.path.join(os.getcwd(), localDir)
 
 class WelcomePage:
 
@@ -65,7 +69,18 @@ class WelcomePage:
         dc = DocumentCreator(name, user, allRepos)
         dc.buildDoc()
 
-        return "Your GitHub Resume is complete!"
+        return """
+        <html><body>
+            <h2>Your GitHub Resume is complete!</h2>
+            <a href='download'>Download Now</a>
+        </body></html>
+        """
+
+    @cherrypy.expose
+    def download(self):
+        path = os.path.join(absDir, "example.docx")
+        return static.serve_file(path, "application/x-download",
+                                 "attachment", os.path.basename(path))
 
 if __name__ == '__main__':
     # CherryPy always starts with app.root when trying to map request URIs

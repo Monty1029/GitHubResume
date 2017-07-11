@@ -1,5 +1,6 @@
 from docx import Document
 from docx.shared import Pt
+import os
 
 from user import User
 from repo import Repo
@@ -33,4 +34,4 @@ class DocumentCreator:
             p = doc.add_paragraph("")
             p.add_run("Stars: ").bold = True
             p.add_run(str(x.getStars()) + "\n")
-        doc.save('example.docx')
+        doc.save('githubresume.docx')
