@@ -78,7 +78,7 @@ class WelcomePage:
 
     @cherrypy.expose
     def download(self):
-        path = os.path.join(absDir, "example.docx")
+        path = os.path.join(absDir, "githubresume.docx")
         return static.serve_file(path, "application/x-download",
                                  "attachment", os.path.basename(path))
 
@@ -88,10 +88,8 @@ if __name__ == '__main__':
     # to '/' will be mapped to HelloWorld().index().
     import sys
     import os
-    port = os.environ['PORT']
-    print(port)
     cherrypy.config.update({
                             'server.socket_host': '0.0.0.0',
-                            'server.socket_port': int(port),
+                            'server.socket_port': int(8080),
                            })
     cherrypy.quickstart(WelcomePage())
