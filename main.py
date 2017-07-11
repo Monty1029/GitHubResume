@@ -86,4 +86,12 @@ if __name__ == '__main__':
     # CherryPy always starts with app.root when trying to map request URIs
     # to objects, so we need to mount a request handler root. A request
     # to '/' will be mapped to HelloWorld().index().
+    import sys
+    import os
+    port = os.environ['PORT']
+    print(port)
+    cherrypy.config.update({
+                            'server.socket_host': '0.0.0.0',
+                            'server.socket_port': int(port),
+                           })
     cherrypy.quickstart(WelcomePage())
