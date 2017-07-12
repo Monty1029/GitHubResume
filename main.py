@@ -37,7 +37,7 @@ class WelcomePage:
         # if a name was actually specified.
 
         url = "https://api.github.com/users/" + name + "/repos"
-        token = "TOKEN"
+        token = "c94b5c2e5de3a12911aa2802d8267ebcd114d65a"
         request = Request(url)
         request.add_header('Authorization', 'token %s' % token)
         response = urlopen(request)
