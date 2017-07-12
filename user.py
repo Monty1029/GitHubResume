@@ -7,7 +7,7 @@ class User:
         self.name = name
         
     def callAPI(self, url):
-        token = "fd672c7370710e401e94bbcc97f7ab073ec3e928"
+        token = "1c2c8e0ce1e08e429af11302452d83fb246fdccf"
         request = Request(url)
         request.add_header('Authorization', 'token %s' % token)
         response = urlopen(request)
