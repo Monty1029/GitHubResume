@@ -37,7 +37,7 @@ class WelcomePage:
         # if a name was actually specified.
 
         url = "https://api.github.com/users/" + name + "/repos"
-        token = "c94b5c2e5de3a12911aa2802d8267ebcd114d65a"
+        token = "d3cfc92d830f70979286fdf9e0781c4f2d24df0a"
         request = Request(url)
         request.add_header('Authorization', 'token %s' % token)
         response = urlopen(request)
@@ -86,8 +86,8 @@ if __name__ == '__main__':
     # CherryPy always starts with app.root when trying to map request URIs
     # to objects, so we need to mount a request handler root. A request
     # to '/' will be mapped to HelloWorld().index().
-    # import sys
-    # import os
-    # cherrypy.config.update({'server.socket_host': '0.0.0.0',})
-    # cherrypy.config.update({'server.socket_port': int(os.environ.get('PORT', '5000')),})
+    import sys
+    import os
+    cherrypy.config.update({'server.socket_host': '0.0.0.0',})
+    cherrypy.config.update({'server.socket_port': int(os.environ.get('PORT', '5000')),})
     cherrypy.quickstart(WelcomePage())
