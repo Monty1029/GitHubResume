@@ -15,7 +15,7 @@ class Repo:
         self.lang = ""
         global data
         url = "https://api.github.com/users/" + name + "/repos"
-        token = "c94b5c2e5de3a12911aa2802d8267ebcd114d65a"
+        token = "TOKEN"
         request = Request(url)
         request.add_header('Authorization', 'token %s' % token)
         response = urlopen(request)
