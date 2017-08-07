@@ -2,4 +2,7 @@
 A resume builder that gets information off your GitHub profile.<br>
 Check it out <a href="https://githubresume1.herokuapp.com">here</a>!<br><br>
 Uses the <a href="http://cherrypy.org/">CherryPy</a> framework.<br>
-Requires the <a href="https://github.com/python-openxml/python-docx">python-docx</a> library to run.
+Requires the <a href="https://github.com/python-openxml/python-docx">python-docx</a> library to run.<br><br>
+
+# To Do
+* Clean up resume formatting
